@@ -1,22 +1,22 @@
 package main
 
 import (
+	"brosRemote/linuxController"
+	"bufio"
 	"fmt"
 	"net"
-	"bufio"
-	"brosRemote/linuxController"
 )
 
-func main(){
+func main() {
 	//var fileName string = "things.txt"
 	var port string = ":3000"
 	server, _ := net.Listen("tcp", port)
 	connection, _ := server.Accept()
 	connection.Write([]byte("Connected\n"))
-	Loop:
-	for{
+Loop:
+	for {
 		input, _ := bufio.NewReader(connection).ReadString('\n')
-		switch{
+		switch {
 		case input == "quit\n":
 			break Loop
 		case input == "hello\n":
@@ -35,6 +35,9 @@ func main(){
 			fmt.Println("unmuting")
 		case input == "lock\n":
 			linuxController.TriggerLockScreen()
+		case input == "restart\n":
+			output, err := linuxController.RestartComputer("^6^Linux^6^\n")
+			fmt.Println(output, err)
 		}
 	}
 }
