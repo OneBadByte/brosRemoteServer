@@ -27,10 +27,10 @@ Loop:
 			break Loop
 		case input == "hello\n":
 			connection.Write([]byte("hello " + linuxController.GetUser()))
-		case input == "volumeUp\n":
+		case input == "up\n":
 			linuxController.TurnVolumeUp("10")
 			fmt.Println("turning Volume up")
-		case input == "volumeDown\n":
+		case input == "down\n":
 			linuxController.TurnVolumeDown("10")
 			fmt.Println("turning Volume down")
 		case input == "mute\n":
