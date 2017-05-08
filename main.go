@@ -7,6 +7,12 @@ import (
 	"net"
 )
 
+func RemoveNewLine(input string)string{
+	s := len(input)
+	input = string(input[:s-1])
+	return input
+}
+
 func main() {
 	//var fileName string = "things.txt"
 	var port string = ":3000"
@@ -36,8 +42,18 @@ Loop:
 		case input == "lock\n":
 			linuxController.TriggerLockScreen()
 		case input == "restart\n":
-			output, err := linuxController.RestartComputer("^6^Linux^6^\n")
+			linuxController.RestartComputer("^6^Linux^6^\n")
+		case input == "update\n":
+			linuxController.UpdateComputer("^6^Linux^6^\n")
+		case input == "shutdown\n":
+			linuxController.ShutDownComputer("^6^Linux^6^\n")
+		case input == "command\n":
+			input, _ := bufio.NewReader(connection).ReadString('\n')
+			stuff := RemoveNewLine(input)
+			output, err := linuxController.RunCommand(stuff)
 			fmt.Println(output, err)
+
+
 		}
 	}
 }

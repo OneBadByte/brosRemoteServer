@@ -4,6 +4,11 @@ import (
 	"os/exec"
 )
 
+func RunCommand(command string)(string, error){
+	output, err := exec.Command(command, "&").CombinedOutput()
+	return string(output), err
+}
+
 func MuteVolume(mute bool) {
 	if mute == true {
 		exec.Command("amixer", "-D", "pulse", "sset", "Master", "mute").Run()
@@ -36,7 +41,7 @@ func RestartComputer(password string) {
 	stdin, _ := command.StdinPipe()
 	stdin.Write([]byte(password))
 	stdin.Close()
-	stuff.Run()
+	command.Run()
 }
 
 func UpdateComputer(password string) {
@@ -44,7 +49,7 @@ func UpdateComputer(password string) {
 	stdin, _ := command.StdinPipe()
 	stdin.Write([]byte(password))
 	stdin.Close()
-	stuff.Run()
+	command.Run()
 }
 
 func ShutDownComputer(password string) {
@@ -52,5 +57,5 @@ func ShutDownComputer(password string) {
 	stdin, _ := command.StdinPipe()
 	stdin.Write([]byte(password))
 	stdin.Close()
-	stuff.Run()
+	command.Run()
 }
