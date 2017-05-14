@@ -3,11 +3,21 @@ package osController
 
 import (
 	"os/exec"
+	"brosRemote/databaseController"
 )
 
 func RunCommand(command string)(string, error){
 	output, err := exec.Command(command, "&").CombinedOutput()
 	return string(output), err
+}
+
+func RunCommandFromDatabase(commandName string) string{
+
+	db := databaseController.InitDB("brosRemote.db")
+	command, message := databaseController.GetCommandByName(commandName, db)
+	commandSlice := command[1:]
+	exec.Command(command[0], commandSlice...).Start()
+	return message
 }
 
 func MuteVolume(mute bool) {
